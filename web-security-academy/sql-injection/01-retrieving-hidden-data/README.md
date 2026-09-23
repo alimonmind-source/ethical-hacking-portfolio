@@ -12,3 +12,5 @@ The application contains a product category filter. When a user clicks on a cate
 2. **Payload:** Modified the category parameter to inject a SQL condition that always evaluates to true, forcing the database to return all records (including hidden or unreleased items):
    ```text
    '+OR+1=1--
+🛡️ Remediation & Defense
+Implement Prepared Statements (Parameterized Queries) so that user-controlled input cannot alter the structure of the underlying SQL query.
