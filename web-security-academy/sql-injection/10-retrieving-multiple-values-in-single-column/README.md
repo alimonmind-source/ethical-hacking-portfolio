@@ -11,9 +11,9 @@ The product category filter is vulnerable to SQL injection. However, the applica
 1. **Reconnaissance:** Determined the query structure, confirming that only one column supports text data and is reflected in the application's response.
 2. **Payload Construction:** Used database-specific string concatenation operators (e.g., standard SQL/PostgreSQL double pipe `||` or appropriate delimiters like `~` or a tilde separator) to merge the `username` and `password` fields into a single string:
  
-
    ```text
    '+UNION+SELECT+username+|+ '~' +|password+FROM+users--
+
 
 
 
