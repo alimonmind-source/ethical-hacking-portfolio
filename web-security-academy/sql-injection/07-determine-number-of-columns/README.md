@@ -15,9 +15,11 @@ The product category filter is vulnerable to SQL injection. To perform a success
    '+ORDER+BY+2--
    '+ORDER+BY+3-- (triggers an error, indicating the query returns 2 columns)
 
-   Method 2 (NULL Payload): Alternatively tested using UNION SELECT statements with increasing numbers of NULL values until the query executed successfully without errors:
 
-'+UNION+SELECT+NULL,+NULL--
+
+    Method 2 (NULL Payload): Alternatively tested using UNION SELECT statements with increasing numbers of NULL values until the query executed successfully without errors:
+
+  '+UNION+SELECT+NULL,+NULL--
 
 
 🛡️ Remediation & Defense
