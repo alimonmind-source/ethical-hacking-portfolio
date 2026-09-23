@@ -17,7 +17,7 @@ The product category filter is vulnerable to SQL injection. To perform a success
 
    Method 2 (NULL Payload): Alternatively tested using UNION SELECT statements with increasing numbers of NULL values until the query executed successfully without errors:
 
-Plaintext
+
 '+UNION+SELECT+NULL,+NULL--
 
 
