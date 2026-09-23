@@ -12,14 +12,13 @@ The product category filter is vulnerable to SQL injection. An attacker can leve
 2. **Table & Column Discovery:** Inferred or discovered the target table name (e.g., `users`) containing username and password columns.
 3. **Payload:** Injected a `UNION SELECT` statement designed to query the target table and concatenate or extract credentials directly into the application's response fields:
  
-
    ```text
    '+UNION+SELECT+username,+password+FROM+users--
 
 
  
 
-   🛡️ Remediation & Defense
+ 🛡️ Remediation & Defense
 
 Parameterized Queries: Implement prepared statements to ensure user input cannot modify the underlying query structure or append arbitrary UNION queries.
 
