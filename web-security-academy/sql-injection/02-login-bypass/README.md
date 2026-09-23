@@ -12,3 +12,8 @@ The application features a standard login form. However, user input supplied in 
 2. **Payload:** Injected a SQL sequence into the username field to comment out the remainder of the query (such as the password check):
    ```text
    administrator'--
+   
+🛡️ Remediation & Defense
+Parameterized Queries: Use prepared statements so that database engines treat user input strictly as data, never as executable code.
+
+Input Validation: Implement strict allow-lists for expected input patterns on sensitive forms.
