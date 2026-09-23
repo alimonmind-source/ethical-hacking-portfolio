@@ -14,6 +14,7 @@ The product category filter is vulnerable to SQL injection. Because the underlyi
    ```text
    '+UNION+SELECT+banner,+NULL+FROM+v$version--
 
-   ## 🛡️ Remediation & Defense
+
+## 🛡️ Remediation & Defense
 * **Parameterized Queries:** Use prepared statements to ensure user input cannot influence the structure of the query.
 * **Data Type Enforcement:** Strictly validate and cast input parameters to expected data types (e.g., integer IDs for categories).
