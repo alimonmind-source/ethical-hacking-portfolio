@@ -18,6 +18,7 @@ The product category filter is vulnerable to SQL injection. An attacker can leve
 
 
  
+
    🛡️ Remediation & Defense
 
 Parameterized Queries: Implement prepared statements to ensure user input cannot modify the underlying query structure or append arbitrary UNION queries.
