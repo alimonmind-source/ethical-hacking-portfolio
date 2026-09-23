@@ -15,6 +15,8 @@ The product category filter is vulnerable to SQL injection. On non-Oracle databa
 
 
 🛡️ Remediation & Defense
+
 Parameterized Queries: Use prepared statements to ensure user input cannot modify the underlying query logic or access metadata tables illicitly.
+
 Principle of Least Privilege: Restrict database account permissions so that web application connections cannot query system metadata catalogs like information_schema directly.
    
