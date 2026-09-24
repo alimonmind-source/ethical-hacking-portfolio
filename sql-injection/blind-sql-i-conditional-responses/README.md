@@ -38,6 +38,8 @@ xyz' AND (SELECT SUBSTRING(password, 1, 1) FROM users WHERE username = 'administ
 
 
 
+
+
 5. Impact
 Unauthorized extraction of sensitive data (credentials, hashes, internal system parameters) in a stealthy manner, bit-by-bit or character-by-character, despite the application hiding errors and direct output.
 
