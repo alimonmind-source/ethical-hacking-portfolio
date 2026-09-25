@@ -37,11 +37,19 @@ xyz'||(SELECT CASE WHEN SUBSTR(password,1,1)='a' THEN TO_CHAR(1/0) ELSE '' END F
 
 
 
+
 SUBSTR(password, 1, 1): Extracts a single character from the password field.
+
 
 CASE WHEN (...) THEN TO_CHAR(1/0) ELSE '' END: Evaluates the logical condition; if true, it forces a division-by-zero error (1/0), which triggers the application error response.
 
+
 Logic flow: By tracking HTTP status code changes (500 vs. 200) across character positions, the password can be extracted precisely.
+
+
+
+
+
 
 💡 5. Impact
 Complete compromise of sensitive data (such as administrator credentials) through systematic error-based inference, bypassing the lack of direct data reflection in the user interface.
