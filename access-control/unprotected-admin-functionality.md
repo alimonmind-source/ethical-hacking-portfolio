@@ -34,8 +34,7 @@ Direct HTTP GET request to the sensitive path disclosed in `robots.txt`:
 ```http
 GET /administrator-panel HTTP/1.1
 Host: target-lab-url.net
-
-
+```
 
 ## 💡 5. Impact
 Unauthorized exposure and execution of critical administrative capabilities, allowing unauthenticated attackers to perform privileged actions like data modification or account deletion.
