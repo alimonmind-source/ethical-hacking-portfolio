@@ -45,16 +45,12 @@ CASE WHEN (...) THEN TO_CHAR(1/0) ELSE '' END: Evaluates the logical condition; 
 
 
 Logic flow: By tracking HTTP status code changes (500 vs. 200) across character positions, the password can be extracted precisely.
+```
 
-
-
-
-
-
-💡 5. Impact
+## 💡 5. Impact
 Complete compromise of sensitive data (such as administrator credentials) through systematic error-based inference, bypassing the lack of direct data reflection in the user interface.
 
-🛡️ 6. Remediation
+## 🛡️ 6. Remediation
 Parameterized Queries (Prepared Statements): Implement parameterized statements or stored procedures so that input data from cookies or parameters is never interpreted as executable SQL code.
 
 Generic Error Handling: Ensure the application returns generic error pages (e.g., standard HTTP 500 or 400 messages) without leaking stack traces or behaving differently based on database-level execution anomalies.
