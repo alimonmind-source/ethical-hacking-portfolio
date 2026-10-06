@@ -34,7 +34,7 @@ Example payload used to extract sensitive data via database error message reflec
 
 ```sql
 xyz' AND CAST((SELECT password FROM users WHERE username = perkara) AS int) = 1--
-
+```
 
 5. Impact
 Rapid extraction of sensitive information (such as administrative credentials or internal system data) directly from the application response, bypassing the need for slow, iterative blind extraction techniques.
