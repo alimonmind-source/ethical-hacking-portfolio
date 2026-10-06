@@ -33,8 +33,7 @@ Example payload used to induce a 10-second time delay in a PostgreSQL database b
 
 ```sql
 xyz'; SELECT pg_sleep(10)--
-
-
+```
 
 
 5. Impact
