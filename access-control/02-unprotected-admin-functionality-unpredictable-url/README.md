@@ -1,85 +1,95 @@
 
-Lab: Unprotected Admin Functionality with Unpredictable URL
+# Unprotected Admin Functionality with Unpredictable URL
 
-• Category: Access Control / Broken Object Level Authorization (BOLA)
-• Severity: High
-• CWE Reference: CWE-284: Improper Access Control, CWE-613: Insufficient Session Expiration
-• Platform: PortSwigger Web Security Academy
-• Level: Apprentice
+**Category:** Access Control / Broken Object Level Authorization (BOLA)  
+**Severity:** High  
+**CWE References:**  
+- CWE‑284: Improper Access Control  
+- CWE‑613: Insufficient Session Expiration  
+**Platform:** PortSwigger Web Security Academy  
+**Level:** Apprentice  
 
-1. Executive Summary & Vulnerability Description
+---
 
-During a security assessment of the target application, a critical access control vulnerability was identified within the administrative architecture. The application relies on "Security through Obscurity" by obfuscating the administrative endpoint URL path (using an unpredictable or randomized string) instead of enforcing robust server-side role-based access control (RBAC).
-Furthermore, this sensitive endpoint is inadvertently exposed to unauthorized users within client-accessible resources (such as inline JavaScript or HTML source code). An unauthenticated attacker can harvest this URL via passive reconnaissance, access the administrative control panel directly, and execute high-privilege operations.
+## Executive Summary & Vulnerability Description  
+During a security assessment of the target application, a critical access‑control flaw was discovered in the administrative architecture.  
+Instead of enforcing robust server‑side role‑based access control (RBAC), the application relies on *“Security through Obscurity”* by obfuscating the administrative endpoint URL with a random string. Worse, that URL is inadvertently exposed to unauthenticated users via client‑side assets (inline JavaScript, HTML source). An attacker can harvest the URL through passive reconnaissance, access the admin panel directly, and perform high‑privilege operations.
 
-2. Laboratory Objective
+---
 
-Locate the obfuscated and unpredictable administrative endpoint exposed within the client-side artifacts, bypass the lack of access controls, and successfully delete the target user account (carlos).
+## Laboratory Objective  
+Locate the obfuscated administrative endpoint exposed in the client‑side artifacts, bypass the missing server‑side controls, and delete the target user account **`carlos`**.
 
-3. Reconnaissance & Threat Modeling
+---
 
+## Reconnaissance & Threat Modeling  
 
-Phase 1: Client-Side Source Inspection
+### Phase 1 – Client‑Side Source Inspection  
+1. Open the landing page: `https://<TARGET>.web-security-academy.net/`.  
+2. Inspect the DOM and client‑side assets via *View Page Source* (`Ctrl + U`) or *Developer Tools* (`F12`).  
+3. Search for non‑standard routes or embedded scripts.  
+   *Discovery:*  
 
-1. Navigate to the application's landing page (https://<LAB-ID>.web-security-academy.net/).
-2. Analyze the Document Object Model (DOM) and client-side assets by viewing the page source (Ctrl + U) or using the browser Developer Tools (F12).
-3. Search for references to administrative structures, non-standard routes, or embedded scripts.
-Discovery:
-An inspection of the HTML source code reveals an inline JavaScript block containing a globally accessible variable or an explicit link pointing to an unpredictable route:
-html
-<script>
-    var adminPanelUrl = '/admin-7a8b9c2d1e'; // Obfuscated endpoint exposed to the client
-</script>
-Usa il codice con cautela.
+   ```html
+   <script>
+       var adminPanelUrl = '/admin-7a8b9c2d1e'; // Obfuscated endpoint exposed to the client
+   </script>
 
-Phase 2: Endpoint Verification
+   Phase 2 – Endpoint Verification
+Send a direct HTTP request to the discovered URI with an unauthenticated session:
 
-To confirm the absence of server-side authorization checks, send a direct HTTP request to the discovered URI using an unauthenticated session.
-http
 GET /admin-7a8b9c2d1e HTTP/2.1
-Host: <LAB-ID>.web-security-academy.net
+Host: <TARGET>.web-security-academy.net
 User-Agent: Mozilla/5.0
 Accept: text/html
-Usa il codice con cautela.
-Expected Response:
-http
+Expected Response
+
 HTTP/2.1 200 OK
 Content-Type: text/html; charset=utf-8
+The server returns 200 OK, confirming that no session validation or RBAC is enforced at the controller level.
 
-<!DOCTYPE html>
-<html>
-<head><title>Admin Panel</title></head>
-<body>
-    <h1>Administrative Console</h1>
-    <!-- Privileged functionalities rendered without session checks -->
-</body>
-</html>
-Usa il codice con cautela.
-The server returns an HTTP 200 OK response, confirming that no session validation, cookie verification, or RBAC mechanism is enforced at the controller level.
+Exploitation Methodology
+Access the Console – Append the discovered path to the base URL:
+https://<TARGET>.web-security-academy.net/admin-7a8b9c2d1e.
 
-4. Exploitation Methodology
+Identify Target Entity – Locate the user management section and find the record for username: carlos.
 
-1. Access the Console: Append the discovered path (/admin-7a8b9c2d1e) to the base URL in the browser's address bar to render the administrative interface.
-2. Identify Target Entity: Locate the user management section and identify the record corresponding to the username carlos.
-3. Execution of Privileged Action: Click the "Delete" button adjacent to the target user or intercept the corresponding administrative HTTP request:
-http
+Execute Privileged Action – Click the “Delete” button next to the user, or intercept the request:
+
 GET /admin-7a8b9c2d1e/delete?username=carlos HTTP/2.1
-Host: <LAB-ID>.web-security-academy.net
+Host: <TARGET>.web-security-academy.net
 Cookie: session=<SESSION_TOKEN>
-Usa il codice con cautela.
-4. Verification: The application processes the request, returns a redirection (HTTP 302) or a success status, and the laboratory registers a Solved state.
+Verification – The application processes the request, returns a 302 redirect or a success status, and the lab is marked Solved.
 
-5. Remediation & Defense Strategies
+Remediation & Defense Strategies
+1. Server‑Side Access Control (RBAC)
+Never rely on URL randomness or obfuscation. Enforce centralized, server‑side authorization on every privileged route.
 
-
-Server-Side Access Control (RBAC)
-
-Never rely on URL unpredictability or obfuscation to secure sensitive functionalities. Enforce centralized, server-side authorization checks on every privileged route.
-python
-# Conceptual Defensive Implementation (Python/Flask Example)
+# Example – Flask
 @app.route('/admin-panel/delete')
 @require_authentication
-@require_role('Administrator') # Strict server-side RBAC validation
+@require_role('Administrator')
 def delete_user():
     username = request.args.get('username')
-    # Execution logic...
+    # ... deletion logic ...
+    return redirect(url_for('admin_dashboard'))
+2. Session Management
+Use secure, HttpOnly cookies.
+Enforce proper session expiration.
+Validate session tokens on every request.
+3. Client‑Side Hardening
+Do not expose sensitive URLs or secrets in JavaScript or HTML.
+Minify/obfuscate only non‑secret parts.
+References
+CWE‑284: Improper Access Control
+CWE‑613: Insufficient Session Expiration
+PortSwigger Web Security Academy – Unprotected Admin Functionality with Unpredictable URL
+
+> **Nota:**  
+> Para eliminar este laboratorio del repositorio, ejecuta los siguientes comandos en tu máquina local (no los pegues en GitHub):
+
+```bash
+rm -rf access-control/02-unprotected-admin-functionality-unpredictable-url
+git add -u
+git commit -m "Eliminar laboratorio: Unprotected Admin Functionality with Unpredictable URL"
+git push origin main
